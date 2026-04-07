@@ -7,4 +7,6 @@ COPY . .
 RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
-CMD ["java", "-jar", "target/*.jar"]
+RUN mv target/estoque-project-0.0.1-SNAPSHOT.jar.original target/app.jar
+
+CMD ["java", "-jar", "target/app.jar"]
