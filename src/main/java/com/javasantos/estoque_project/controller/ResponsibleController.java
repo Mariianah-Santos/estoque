@@ -73,7 +73,7 @@ public class ResponsibleController {
 		
 		try {
 			responsibleService.deleteResponsibleById(id);
-			return ResponseEntity.ok("Responsável deletado com sucesso");
+			return ResponseEntity.noContent().build();
 			
 			
 		} catch (RuntimeException e) {
@@ -88,7 +88,7 @@ public class ResponsibleController {
 		try {
 			
 			Responsible newResponsible = responsibleService.editResponsibleById(id, responsible);
-			return ResponseEntity.ok("Responsável editado com sucesso");
+			return ResponseEntity.ok(newResponsible);
 			
 		} catch (RuntimeException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
