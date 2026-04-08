@@ -20,7 +20,7 @@ import com.javasantos.estoque_project.services.ResponsibleService;
 
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/responsible")
