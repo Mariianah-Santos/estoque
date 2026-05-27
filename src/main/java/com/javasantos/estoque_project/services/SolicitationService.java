@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.javasantos.estoque_project.infrastructure.entity.Product;
 import com.javasantos.estoque_project.infrastructure.entity.Solicitation;
 import com.javasantos.estoque_project.infrastructure.enuns.MovementType;
 import com.javasantos.estoque_project.infrastructure.respository.ProductRepository;
