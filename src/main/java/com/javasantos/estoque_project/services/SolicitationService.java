@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.javasantos.estoque_project.infrastructure.entity.Solicitation;
 import com.javasantos.estoque_project.infrastructure.enuns.MovementType;
+import com.javasantos.estoque_project.infrastructure.respository.ProductRepository;
 import com.javasantos.estoque_project.infrastructure.respository.SolicitationRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class SolicitationService {
 	
 	private final SolicitationRepository solicitationRepository;
-
+	private final ProductRepository productRepository;
     // Funcionário cria a solicitação
     public Solicitation create(Solicitation solicitation) {
         solicitation.setStatus(MovementType.PENDING);
@@ -33,7 +34,21 @@ public class SolicitationService {
     public Solicitation updateStatus(Long id, MovementType status) {
         Solicitation solicitation = solicitationRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Solicitação não encontrada"));
+        
         solicitation.setStatus(status);
+
+        // se aprovado, decrementa o estoque
+        if (status == MovementType.APPROVED) {
+            Product product = solicitation.getProduct();
+
+            if (product.getQuantity() < solicitation.getQuantity()) {
+                throw new RuntimeException("Quantidade insuficiente no estoque");
+            }
+
+            product.setQuantity(product.getQuantity() - solicitation.getQuantity());
+            productRepository.save(product);
+        }
+
         return solicitationRepository.save(solicitation);
     }
 

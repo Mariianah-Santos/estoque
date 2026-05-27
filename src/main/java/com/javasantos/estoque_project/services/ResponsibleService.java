@@ -114,7 +114,7 @@ public class ResponsibleService {
 		newResponsible.setEmail(responsible.getEmail());
 		newResponsible.setTelefone(responsible.getTelefone());
 		newResponsible.setActive(responsible.getActive());
-		newResponsible.setPassword(responsible.getPassword());
+		newResponsible.setPassword(passwordEncoder.encode(responsible.getPassword()));
 		
 		return responsibleRepository.save(newResponsible);
 	}
