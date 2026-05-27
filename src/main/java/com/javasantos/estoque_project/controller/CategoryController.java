@@ -3,6 +3,7 @@ package com.javasantos.estoque_project.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class CategoryController {
 	
 	// criando a category
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> addCategory(@RequestBody Category category) {
 		
 		try {
@@ -43,6 +45,7 @@ public class CategoryController {
 	
 	// pegar a lista toda e categoria
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	public ResponseEntity<?> getCategoryController() {
 		
 		try {
@@ -56,6 +59,7 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	public ResponseEntity<?> getCategoryByIdController(@PathVariable Long id) {
 		
 		try {
@@ -73,6 +77,7 @@ public class CategoryController {
 	
 	// deleta categoria pelo id
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deleteCategoryController(@PathVariable Long id) {
 		
 		try {
@@ -85,6 +90,7 @@ public class CategoryController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> editCategoryController(@PathVariable Long id, @RequestBody Category category) {
 		
 		try {

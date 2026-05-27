@@ -2,12 +2,13 @@ package com.javasantos.estoque_project.services;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.javasantos.estoque_project.DTO.LoginRequest;
 import com.javasantos.estoque_project.infrastructure.entity.Responsible;
 import com.javasantos.estoque_project.infrastructure.respository.ProductRepository;
 import com.javasantos.estoque_project.infrastructure.respository.ResponsibleRepository;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,7 @@ public class ResponsibleService {
 
 	private final ResponsibleRepository responsibleRepository;
 	private final ProductRepository productRepository;
+	private final PasswordEncoder passwordEncoder;
 		
 	// criar um responsavel
 	public Responsible createResponsibleService(Responsible responsible) {
@@ -41,6 +43,8 @@ public class ResponsibleService {
 			throw new RuntimeException("A senha é um campo obrigatório");
 		}
 		
+		
+		responsible.setPassword(passwordEncoder.encode(responsible.getPassword()));
 		responsible.setActive(true);
 			
 		return responsibleRepository.save(responsible);
@@ -114,24 +118,5 @@ public class ResponsibleService {
 		
 		return responsibleRepository.save(newResponsible);
 	}
-	
-	public Responsible login(LoginRequest dto) {
-
-	    Responsible user = responsibleRepository.findByEmail(dto.getEmail());
-
-	    if (user == null) {
-	        throw new RuntimeException("Usuário não encontrado");
-	    }
-
-	    if (!user.getPassword().equals(dto.getPassword())) {
-	        throw new RuntimeException("Senha inválida");
-	    }
-
-	    user.setPassword(null);
-
-	    return user;
-	}
-	
-		
-		
+			
 }

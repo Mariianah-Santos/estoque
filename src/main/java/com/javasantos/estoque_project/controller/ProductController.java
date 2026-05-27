@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class ProductController {
 	// vai criar dentro da tabela essas informações
 	 
 	 @PostMapping
+	 @PreAuthorize("hasRole('ADMIN')")
 	 public ResponseEntity<?> createProduct(@RequestBody ProductRequestDTO dto) {
 	     try {
 	         Product savedProduct = productService.addProduct(dto);
@@ -55,6 +57,7 @@ public class ProductController {
 	} */
 	
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	public ResponseEntity<?> getAllProductsController() {
 	    try {
 	        List<Product> products = productService.getAllProductsService();
@@ -83,6 +86,7 @@ public class ProductController {
 	}*/
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	public ResponseEntity<?> getProductById(@PathVariable Long id) {
 	    try {
 	        Product product = productService.findById(id);
@@ -93,6 +97,7 @@ public class ProductController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deleteProductByIdController(@PathVariable Long id) {
 		
 		try {
@@ -105,6 +110,7 @@ public class ProductController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> editProductController(@PathVariable Long id, @RequestBody ProductRequestDTO dto) {
 	    try {
 	        Product productUpdate = productService.editProduceService(id, dto);

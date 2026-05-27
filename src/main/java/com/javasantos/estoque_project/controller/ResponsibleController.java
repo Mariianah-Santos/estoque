@@ -2,8 +2,8 @@ package com.javasantos.estoque_project.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.javasantos.estoque_project.DTO.LoginRequest;
 import com.javasantos.estoque_project.infrastructure.entity.Responsible;
 import com.javasantos.estoque_project.services.ResponsibleService;
 
@@ -29,6 +28,7 @@ public class ResponsibleController {
 	private final ResponsibleService responsibleService;
 	
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> addResponsibleController(@RequestBody Responsible responsible) {
 		
 		try {
@@ -42,6 +42,7 @@ public class ResponsibleController {
 	} 
 	
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	public ResponseEntity<?> getAllResponsibleController() {
 		
 		try {
@@ -55,6 +56,7 @@ public class ResponsibleController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getResponsibleByIdControlle(@PathVariable Long id) {
 		
 		try {
@@ -69,6 +71,7 @@ public class ResponsibleController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deleteResponsibleById(@PathVariable Long id) {
 		
 		try {
@@ -83,6 +86,7 @@ public class ResponsibleController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> editResponsibleById(@PathVariable Long id, @RequestBody Responsible responsible) {
 		
 		try {
@@ -96,23 +100,5 @@ public class ResponsibleController {
 			
 		}
 	}
-	
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequest dto) {
-	    try {
-	        Responsible user = responsibleService.login(dto);
-	        return ResponseEntity.ok(user);
-	    } catch (RuntimeException e) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-	    }
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

@@ -33,7 +33,7 @@ public class ProductService {
 	    Product product = new Product();
 
 	    product.setName(dto.getName());
-	    product.setPrice(dto.getPrice());
+	   
 	    product.setQuantity(dto.getQuantity() == null ? 0 : dto.getQuantity());
 
 	    product.setCategory(findCategory(dto.getCategoryId()));
@@ -219,7 +219,7 @@ public class ProductService {
 	    validateProduct(dto);
 
 	    product.setName(dto.getName());
-	    product.setPrice(dto.getPrice());
+	    //product.setPrice(dto.getPrice());
 	    product.setQuantity(dto.getQuantity());
 
 	    product.setCategory(findCategory(dto.getCategoryId()));
@@ -258,14 +258,6 @@ public class ProductService {
 
 	    if (dto.getName() == null || dto.getName().isBlank()) {
 	        throw new RuntimeException("Nome é obrigatório");
-	    }
-
-	    if (dto.getPrice() == null) {
-	        throw new RuntimeException("Preço é obrigatório");
-	    }
-
-	    if (dto.getPrice() < 0) {
-	        throw new RuntimeException("Preço não pode ser negativo");
 	    }
 
 	    if (dto.getCategoryId() == null) {
